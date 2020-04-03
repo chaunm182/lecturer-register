@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout.html}"
+      lang = "en">
+
+<head>
+    <title>Trang chủ</title>
+
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Thông báo</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <th:block th:if="${session.account}">
+                <div class="col-sm-12">
+                    <div class="alert alert-success">
+                        Đăng nhập thành công
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Thông tin cá nhân
+                        </div>
+                        <div class="panel-body">
+                            <p>Tên giảng viên: <strong th:text="${session.account.person.firstName}+' '+${session.account.person.lastName}"></strong></p>
+                            <p>Ngày sinh: <strong th:text="${session.account.person.dateOfBirth.getDay()}+'/'+${session.account.person.dateOfBirth.getMonth()}+'/'+${session.account.person.dateOfBirth.getYear()}"></strong></p>
+                            <p>Email: <strong th:text="${session.account.email}"></strong></p>
+                            <p>Điện thoại: <strong th:text="${session.account.person.phoneNumber}"></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout.html}"
+      lang = "en">
+
+<head>
+    <title>Đăng ký giảng dạy</title>
+
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Đăng ký giảng dạy</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#register-course-pill" data-toggle="tab" aria-expanded="true">Đăng ký giảng dạy</a>
+                    </li>
+                    <li class="" id="lecturer-id-block"><a href="#registered-courses-pill" data-toggle="tab" aria-expanded="false">Môn đã đăng ký</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" style="margin-top: 15px">
+                    <div class="tab-pane fade active in" id="register-course-pill">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <form id="search-course-form" th:action="@{/api/courses/}" method="get">
+                                    <div class="form-group input-group">
+                                        <label for="subjectId"></label>
+                                        <input id="subjectId" type="text" class="form-control" placeholder="Nhập mã môn học...">
+                                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="row text-right" style="padding-right: 15px">
+                            <button id="btnSave" type="button" class="btn btn-outline btn-primary btn-lg">Lưu đăng ký</button>
+                            <a id="saveUrl" th:href="@{/api/courses/}"></a>
+                        </div>
+                        <div class="row" style="margin-top: 20px">
+                            <div class="col-12" style="padding-left: 15px;padding-right: 15px">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th scope="col">Mã MH</th>
+                                        <th scope="col">Tên MH</th>
+                                        <th scope="col">Mã nhóm</th>
+                                        <th scope="col">Số TC</th>
+                                        <th scope="col">Thứ</th>
+                                        <th scope="col">Tiết BĐ</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">Tuần</th>
+                                        <th scope="col">Trạng thái</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:id="find-courses-table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="registered-courses-pill">
+                        <th:block th:if="${session.account}">
+                            <span id="lecturer-id" style="display: none" th:text="${session.account.person.id}"></span>
+                        </th:block>
+
+                        <div class="row" style="padding: 0px 15px 0px 15px;margin-top: 10px">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Mã MH</th>
+                                    <th scope="col">Tên MH</th>
+                                    <th scope="col">Mã nhóm</th>
+                                    <th scope="col">Số TC</th>
+                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="registerd-courses-table">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/my-script/course.js}"></script>
+    <script th:src="@{/js/my-script/register-courses.js}"></script>
+    <script th:inline="javascript">
+        var btnSave = $('#btnSave');
+        btnSave.on('click',function (e) {
+            var url = /*[[@{/api/courses/}]]*/'';
+            var lecturerId = /*[[${session.account.person.id}]]*/'';
+            url+=lecturerId;
+            var data = getCoursesForRegister();
+            $.ajax({
+                url: url,
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'text',
+                data: JSON.stringify(data),
+                beforeSend: function(){
+                    btnSave.prop('disabled',true);
+                },
+                success:function (res) {
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Đăng ký thành công '+res+'/'+data.length+' môn học được chọn',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(()=>{
+                        var urlPage = /*[[@{/course-register}]]*/'';
+                        $(location).attr('href',urlPage);
+                    });
+                },
+                error:function (res) {
+                    console.log('error');
+                    console.log(res);
+                }
+            });
+        });
+        function getCoursesForRegister() {
+            var data = [];
+            for(var i=0;i<sessionStorage.length;i++){
+                var course = JSON.parse(sessionStorage.getItem(sessionStorage.key(i)));
+                if(course.registeredAt==null){
+                    data.push(course.id);
+                }
+            }
+            return data;
+        }
+    </script>
+</th:block>
+</body>
+
+</html>

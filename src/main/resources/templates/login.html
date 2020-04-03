@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/login.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập - Học viện công nghệ bưu chính viễn thông</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Đăng nhập</h3>
+                </div>
+                <div class="panel-body">
+                    <th:block th:if="${param.error}">
+                        <div class="alert alert-danger">Tài khoản hoặc mật khẩu không chính xác</div>
+                    </th:block>
+                    <th:block th:if="${param.logout}">
+                        <div class="alert alert-success">Đăng xuất thành công</div>
+                    </th:block>
+                    <form style="margin-bottom: 15px;" th:action="@{/auth-user}" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Tên đăng nhập..." name="username" type="text" id="username" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Mật khẩu..." name="password" id="password" type="password" value="">
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button class="btn btn-lg btn-success btn-block">Đăng nhập</button>
+                        </fieldset>
+                    </form>
+                    <a th:href="@{/}"><i class="fas fa-home"></i> Đi tới trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
