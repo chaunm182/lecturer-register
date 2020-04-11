@@ -40,13 +40,25 @@
                                         <label for="subjectId"></label>
                                         <input id="subjectId" type="text" class="form-control" placeholder="Nhập mã môn học...">
                                         <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                    </span>
+                                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                        </span>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>hoặc chọn môn học</label>
+                                    <select id="select-subject-form" multiple="" class="form-control">
+                                        <th:block th:each="subject : ${subjects}">
+                                            <option th:text="${subject.subjectId} +' - '+${subject.name}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row text-right" style="padding-right: 15px">
                             <button id="btnSave" type="button" class="btn btn-outline btn-primary btn-lg">Lưu đăng ký</button>
                             <a id="saveUrl" th:href="@{/api/courses/}"></a>

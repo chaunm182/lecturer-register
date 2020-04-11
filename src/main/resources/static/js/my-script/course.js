@@ -4,12 +4,21 @@ $(document).ready(function () {
     sessionStorage.clear();
     addRegisteredCoursesToStorage(lecturerId);
 });
+
 var searchForm = $('#search-course-form');
 searchForm.on('submit',function (e) {
     e.preventDefault();
     var subjectId = $('#subjectId').val();
     findCoursesBySubjectId(subjectId)
 });
+
+var selectSubjectForm = $('#select-subject-form');
+selectSubjectForm.find('option').on('click',function (e) {
+    var subject = e.target.text.split('-');
+    var subjectId = subject[0].trim();
+   findCoursesBySubjectId(subjectId);
+});
+
 var tbody = $('#find-courses-table');
 function findCoursesBySubjectId(subjectId) {
     var url = searchForm.attr('action')+'subjects/'+subjectId;

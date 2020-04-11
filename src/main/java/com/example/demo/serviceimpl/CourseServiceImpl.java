@@ -4,9 +4,11 @@ import com.example.demo.entity.Course;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,5 +38,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void save(Course course) {
         courseRepository.save(course);
+    }
+
+    @Override
+    public List<Course> findAll() {
+        Sort sort = Sort.by("courseId");
+        sort = sort.ascending();
+        return courseRepository.findAll(sort);
     }
 }
