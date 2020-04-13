@@ -125,7 +125,7 @@ function drawItems(data) {
             else if (sessionStorage.getItem(course.id)!=null) checkboxRow+=' checked';
             checkboxRow+='/></td>';
             var statusRow = course.registeredAt ==null? ' <td class="text-center" rowspan="'+numberOfCourseDetail+'">\n' +
-                '                            <span class="badge" style="background-color: #5cb85c">Có thể đăng ký</span>\n' +
+                '                            <span class="badge" style="background-color: #5cb85c">Được đăng ký</span>\n' +
                 '                        </td>' : ' <td class="text-center" rowspan="'+numberOfCourseDetail+'">\n' +
                 '                            <span class="badge">Đã có giảng viên đăng ký</span>\n' +
                 '                        </td>';
