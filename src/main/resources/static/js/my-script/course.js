@@ -99,14 +99,16 @@ function drawItemsForRegisteredCoursesTable(data) {
             ' </td>' : '<td class="text-center">\n' +
             '   <span class="badge">Chưa lưu vào CSDL</span>\n' +
             ' </td>';
-        var action = '<td class="text-center"><a><i class="fas fa-trash"></i></a></td>';
+        var checkbox = '<td class="text-center">';
+        var checkBoxInput = course.registeredAt != null? '<input course-id="'+course.id+'" type="checkbox"/>' : '';
+        checkbox+=checkBoxInput+'</td>';
         var row = '<tr>' +
             subjectId +
             subjectName+
             courseId+
             credit+
             status+
-            action+
+            checkbox+
             '</tr>';
         rows+=row;
     });

@@ -71,8 +71,26 @@ public class CourseRestController {
                     courseService.save(course);
                     result++;
                 }catch (Exception ex){
-                    logger.warning("======> EXCEPTION: "+ex);
+                    logger.warning("======> EXCEPTION: "+ex.getMessage());
                 }
+            }
+        }
+        return result;
+    }
+
+    @PutMapping("/{lecturerId}")
+    public Integer cancelRegistration(@PathVariable("lecturerId") Integer lecturerId,
+                                      @RequestBody List<Integer> courseIds){
+        Integer result = 0;
+        for(Integer courseId : courseIds){
+            Course course = courseService.findById(courseId);
+            course.setLecturer(null);
+            course.setRegisteredAt(null);
+            try{
+                courseService.save(course);
+                result++;
+            }catch (Exception ex){
+                logger.warning("======> EXCEPTION: "+ex.getMessage());
             }
         }
         return result;

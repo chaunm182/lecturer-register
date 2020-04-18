@@ -6,7 +6,6 @@
 
 <head>
     <title>Đăng ký giảng dạy</title>
-
 </head>
 
 <body>
@@ -24,7 +23,7 @@
             <div class="panel-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-pills">
-                    <li class="active"><a href="#register-course-pill" data-toggle="tab" aria-expanded="true">Đăng ký giảng dạy</a>
+                    <li class="active" id="register-block"><a href="#register-course-pill" data-toggle="tab" aria-expanded="true">Đăng ký giảng dạy</a>
                     </li>
                     <li class="" id="lecturer-id-block"><a href="#registered-courses-pill" data-toggle="tab" aria-expanded="false">Môn đã đăng ký</a>
                     </li>
@@ -64,7 +63,7 @@
                             <a id="saveUrl" th:href="@{/api/courses/}"></a>
                         </div>
                         <div class="row" style="margin-top: 20px">
-                            <div class="col-12" style="padding-left: 15px;padding-right: 15px">
+                            <div class="col-12 table-responsive" style="padding-left: 15px;padding-right: 15px">
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -91,8 +90,12 @@
                         <th:block th:if="${session.account}">
                             <span id="lecturer-id" style="display: none" th:text="${session.account.person.id}"></span>
                         </th:block>
-
-                        <div class="row" style="padding: 0px 15px 0px 15px;margin-top: 10px">
+                        <div class="row text-right" style="padding-right: 15px">
+                            <button id="btnDelete" disabled type="button" class="btn btn-outline btn-danger btn-lg">Xóa đăng ký</button>
+                            <a id="urlCancel" th:href="@{/api/courses/}"></a>
+                            <a id="urlPage" th:href="@{/course-register}"></a>
+                        </div>
+                        <div class="row table-responsive" style="padding: 0px 15px 0px 15px;margin-top: 10px">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -101,7 +104,7 @@
                                     <th scope="col">Mã nhóm</th>
                                     <th scope="col">Số TC</th>
                                     <th scope="col">Trạng thái</th>
-                                    <th scope="col">Hành động</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody id="registerd-courses-table">
@@ -118,6 +121,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/my-script/course.js}"></script>
     <script th:src="@{/js/my-script/register-courses.js}"></script>
+    <script th:src="@{/js/my-script/cancel-registration.js}"></script>
     <script th:inline="javascript">
         var btnSave = $('#btnSave');
         btnSave.on('click',function (e) {
@@ -136,11 +140,13 @@
                 },
                 success:function (res) {
                     Swal.fire({
-                        position: 'top-end',
                         type: 'success',
                         title: 'Đăng ký thành công '+res+'/'+data.length+' môn học được chọn',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000,
+                        allowOutsideClick: false,
+                        allowEscapeKey:false,
+                        allowOutsideClick: false
                     }).then(()=>{
                         var urlPage = /*[[@{/course-register}]]*/'';
                         $(location).attr('href',urlPage);
