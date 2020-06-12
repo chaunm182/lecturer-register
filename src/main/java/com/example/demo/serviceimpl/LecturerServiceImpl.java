@@ -15,6 +15,9 @@ public class LecturerServiceImpl implements LecturerService {
     @Override
     public Lecturer findById(Integer id) {
         Optional<Lecturer> lecturerOptional = lecturerRepository.findById(id);
-        return lecturerOptional.orElse(null);
+        if(lecturerOptional.isPresent()){
+            return lecturerOptional.get();
+        }
+        return null;
     }
 }

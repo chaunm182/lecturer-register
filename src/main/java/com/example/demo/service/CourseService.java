@@ -9,6 +9,6 @@ public interface CourseService {
     Set<Course> findCoursesBySubjectId(String subjectId);
     Set<Course> findCoursesByLecturerId(Integer id);
     Course findById(Integer id);
-    void save(Course course);
+    Course save(Course course);
     List<Course> findAll();
 }
