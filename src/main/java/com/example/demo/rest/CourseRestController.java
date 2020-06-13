@@ -67,12 +67,8 @@ public class CourseRestController {
                 lecturer.setId(lecturerId);
                 course.setLecturer(lecturer);
                 course.setRegisteredAt(new Date(System.currentTimeMillis()));
-                try{
-                    courseService.save(course);
-                    result++;
-                }catch (Exception ex){
-                    logger.warning("======> EXCEPTION: "+ex.getMessage());
-                }
+                courseService.save(course);
+                result++;
             }
         }
         return result;
@@ -86,12 +82,8 @@ public class CourseRestController {
             Course course = courseService.findById(courseId);
             course.setLecturer(null);
             course.setRegisteredAt(null);
-            try{
-                courseService.save(course);
-                result++;
-            }catch (Exception ex){
-                logger.warning("======> EXCEPTION: "+ex.getMessage());
-            }
+            courseService.save(course);
+            result++;
         }
         return result;
     }
