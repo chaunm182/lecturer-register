@@ -43,4 +43,10 @@ class CourseRepositoryTest {
 
        assertNotNull(courseRepository.save(course));
     }
+
+    @Test
+    void delete(){
+        courseRepository.deleteById(1);
+        assertFalse(courseRepository.findById(1).isPresent());
+    }
 }
